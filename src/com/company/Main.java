@@ -10,7 +10,7 @@ public class Main extends JFrame {
         super("Zipper");
         int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
         int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
-        int appHeight = screenHeight/5;
+        int appHeight = screenHeight/4;
         int appWidth = screenWidth/4;
         this.setBounds((screenWidth-appWidth)/2,(screenHeight-appHeight)/2,appWidth,appHeight);
 
@@ -26,9 +26,9 @@ public class Main extends JFrame {
 
     public void initComponents(){
 
-        Action addingAction = new ButtonAction("Add");
-        Action deletingAction = new ButtonAction("Delete");
-        Action zippingAction = new ButtonAction("Zip");
+        Action addingAction = new ButtonAction("Add","Add an entry to the archive","ctrl A",new ImageIcon("add.png"));
+        Action deletingAction = new ButtonAction("Delete","Delete an entry from the archive","ctrl D",new ImageIcon("delete.png"));
+        Action zippingAction = new ButtonAction("Zip","Zip all files","ctrl Z");
 
         this.setJMenuBar(menuBar);
         JMenu menuFile = menuBar.add(new JMenu("File"));
@@ -39,6 +39,7 @@ public class Main extends JFrame {
         addButton = new JButton(addingAction);
         deleteButton = new JButton(deletingAction);
         zipButton = new JButton(zippingAction);
+        list.setBorder(BorderFactory.createEtchedBorder());
 
         GroupLayout layout = new GroupLayout(this.getContentPane());
 
@@ -63,7 +64,7 @@ public class Main extends JFrame {
                         layout.createSequentialGroup()
                         .addComponent(addButton)
                         .addComponent(deleteButton)
-                                .addGap(10,50,Short.MAX_VALUE)
+                                .addGap(0,10,Short.MAX_VALUE)
                         .addComponent(zipButton)
                 )
         );
@@ -72,6 +73,7 @@ public class Main extends JFrame {
 
 
         this.getContentPane().setLayout(layout);
+        //this.pack();
 
     }
 
@@ -82,13 +84,28 @@ public class Main extends JFrame {
 
     private class ButtonAction extends AbstractAction{
 
-        public ButtonAction(String buttonName){
-            this.putValue(ButtonAction.NAME,buttonName);
+        public ButtonAction(String buttonName,String description, String keybordShortcut){
+            this.putValue(Action.NAME,buttonName);
+            this.putValue(Action.SHORT_DESCRIPTION,description);
+            this.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke(keybordShortcut));
+        }
+
+        public ButtonAction(String buttonName,String description, String keybordShortcut,Icon icon){
+            this(buttonName,description,keybordShortcut);
+            this.putValue(Action.SMALL_ICON,icon);
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            if(e.getActionCommand().equals("Add")){
+                System.out.println("Dodaj");
+            }
+            else if(e.getActionCommand().equals("Delete")){
+                System.out.println("Usuń");
+            }
+            else if(e.getActionCommand().equals("Zip")){
+                System.out.println("Zipowanie");
+            }
         }
     }
 }
