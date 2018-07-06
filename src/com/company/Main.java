@@ -33,6 +33,12 @@ public class Main extends JFrame {
             return arrayList.get(index);
         }
 
+        @Override
+        public Object remove(int index) {
+            list.remove(index);
+            return super.remove(index);
+        }
+
         ArrayList arrayList = new ArrayList();
     };
     private JList list = new JList(listModel);
@@ -120,10 +126,10 @@ public class Main extends JFrame {
                 addEntryToArchive();
             }
             else if(e.getActionCommand().equals("Delete")){
-
+                deleteEntryFromArchive();
             }
             else if(e.getActionCommand().equals("Zip")){
-               
+
             }
         }
 
@@ -148,6 +154,13 @@ public class Main extends JFrame {
                 }
             }
             return false;
+        }
+
+        public void deleteEntryFromArchive(){
+            int[] tmp = list.getSelectedIndices();
+            for(int i = 0 ; i <tmp.length;i++){
+                listModel.remove(tmp[i]-i);
+            }
         }
     }
 }
